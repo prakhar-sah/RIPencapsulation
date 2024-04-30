@@ -1,3 +1,6 @@
+### Back-end third party user interface library for mspdebug ###
+### Written by Harrison Williams (Virginia Tech FoRTE Research group) ###
+
 #!/usr/bin/python3
 
 import subprocess
