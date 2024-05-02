@@ -2,16 +2,16 @@
 
 RIPencapsulation is an interrupt-based side channel attack which exploits the vulnerabilities present 
 in the Trusted Execution Environment provided on Texas Instruments MSP microcontrollers, IP Encapsulation
-(IPE), namely -- a) lack of call site verification on IPE entries and b) no context-clearing on IPE exits --
+(IPE), namely -- a) lack of call site verification on IPE entries and b) no context-clearing on IPE exits -- 
 to exfiltrate or modify the protected IPE code and data.
 
-The attack consists of three phases —- 1) CPU register state dumps, 2) reverse-engineering, and 
-3)firmware exfiltration -— explained in more detail in "RIPencapsulation: Defeating IP Encapsulation on
+The attack consists of three phases -- 1) CPU register state dumps, 2) reverse-engineering, and 
+3)firmware exfiltration -- explained in more detail in "RIPencapsulation: Defeating IP Encapsulation on
 TI MSP devices". The main goal of this artifact is to exfiltrate the IPE memory and demonstrate the 
 end-to-end attack on multiple security-critical libraries compiled at different optimization levels.
 
 The artifact also contains additional reverse-engineering scripts, old evaluation results as well 
-proof-of- concept code for the MSP430P401R (discontinued), in the interest of facilitating future 
+proof-of-concept code for the MSP430P401R (discontinued), in the interest of facilitating future 
 research on the topic.
 
 ## Software pre-requisites
@@ -49,21 +49,22 @@ version of the attack on the MSP432P401R launchpad (discontinued).
 ## Experiment workflow
 
 To verify the functionality of the end-to-end attack in exfiltrating the protected IPE firmware on the MSP430FR5994 launchpad, 
-we recommend following this example workflow:
+we recommend following this example workflow. We have also provided some pre-built binaries for the benchmarks, compiled at the -O0 optimization level. If you wish to use these binaries directly, ignore step 1.
 
-1. In `msp430/Makefile`, uncomment the `BENCHMARK` and `OPTFLAG` you wish to evaluate.
+1. In `msp430/Makefile`, uncomment the `BENCHMARK` and `OPTFLAG` you wish to evaluate. Build the binary using the following commands on the terminal: 
+```
+cd ∼/path/to/your/project/directory/msp430/
+make clean
+make
+```
 2. In `eval/python/RIPencapsulation.py`, uncomment the benchmark you wish to evaluate.
 3. On the terminal, change the working directory to `eval/python/` by running the following command:
 `cd ∼/path/to/your/project/directory/eval/python/`
 4. Connect the MSP430FR5994 launchpad (via the USB debug cable) to your workstation and run the python script `RIPencapsulation.py`
 by entering the following command on the terminal: `python3 RIPencapsulation.py`
-5. Give the script some time to exfiltrate the IPE firmware. If the script fails in the middle (due to serial communication error),
+5. Give the script some time to complete execution. If the script fails in the middle (due to serial communication error),
 press `CTRL+C` to break out of the script and then rerun it. In some cases, it might be required to hard reset the device (by unplugging
 the launchpad and plugging it back in) before a rerun.
 6. If the script finishes execution displaying "Unsuccessful: Could not find any indirect load instructions" this means that the number of
-register dumps taken was insufficient for finding any indirect load instructions. This can be solved by changing the `reg_dump_size`
-variable (line 24 of `eval/python/RIPencapsulation.py`) to a higher value. Its current value is set to work for `BENCHMARK = aes` and
-`OPTFLAG = -O0`. Note that the higher its value, the more time it will take to exfiltrate the IPE memory.
-7. Once the script finishes executing successfully, the exfiltrated dumps can be found in the `eval/dumps/` directory. The exfiltrated
-IPE firmware can be found in the file `eval/dumps/exfiltrated_firmware.xlsx`, where the first column is the IPE address location and the
-second column is the memory value at that location.
+register dumps taken was insufficient for finding any indirect load instructions. This can be solved by changing the `reg_dump_size` and `reg_dump_sleep_time` variables to bigger values. The current values are set to work for the pre-built binaries. Note that the bigger the values, the more time it will take to exfiltrate the IPE memory.
+7. If the script finishes execution displaying "Exfiltrating IPE firmware..." give it some time to exfiltrate the IPE memory to an xlsx file (~120sec). The exfiltrated dumps can be found in the `eval/dumps/` directory. The exfiltrated IPE firmware can be found in the file `eval/dumps/exfiltrated_firmware.xlsx`, where the first column is the IPE address location and the second column is the memory value at that location.
