@@ -622,7 +622,7 @@ int main(void)
     __asm__ __volatile__ ("adda #22,R15");
     __asm__ __volatile__ ("mova R15,@SP");
     __asm__ __volatile__ ("mova #test_decrypt,R14");
-    __asm__ __volatile__ ("adda #6,R14");
+    __asm__ __volatile__ ("adda #8,R14");
     //__asm__ __volatile__ ("pushm.a #3,R10");         //to account for prologue of test_decrypt function
     __asm__ __volatile__ ("suba #0x00008,SP");       //to account for prologue of test_decrypt function
     __asm__ __volatile__ ("bra R14");

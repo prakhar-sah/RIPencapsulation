@@ -1,3 +1,4 @@
+import sys
 import openpyxl
 
 # Define variable to load the dataframe
@@ -8,11 +9,16 @@ sheet = wb.worksheets[1]
 
 ws3 = wb.create_sheet("possible_indirect_loads")
 ws3_row = 0
-ind_loads = [[''] * 2 for _ in range(200)]
- 
+ind_loads = [[''] * 2 for _ in range(1000)]
+
+if (sys.argv[1] == "aes"):
+    ipe_end = 24576
+else:
+    ipe_end = 45056
+
 # Iterate the loop to read the cell values
 for row in range(2, sheet.max_row+1):
-    if(16384 <= sheet.cell(row,1).value and sheet.cell(row,1).value < 24576):
+    if(16384 <= sheet.cell(row,1).value and sheet.cell(row,1).value < ipe_end):
         pc_diff = sheet.cell(row,1).value - sheet.cell(row-1,1).value
         if(0 < pc_diff <= 6):
             for i in range(4,16):
