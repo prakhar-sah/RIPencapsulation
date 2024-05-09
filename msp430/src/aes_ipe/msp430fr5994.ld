@@ -49,7 +49,7 @@ MEMORY {
   INFOC            : ORIGIN = 0x1880, LENGTH = 0x0080 /* END=0x18FF, size 128 */
   INFOD            : ORIGIN = 0x1800, LENGTH = 0x0080 /* END=0x187F, size 128 */
   IPFRAM (rx)      : ORIGIN = 0x4000, LENGTH = 0x2000 /* END=0x5FFF, size 8192 */
-  FRAM (rx)        : ORIGIN = 0x6000, LENGTH = 0x9F80 /* END=0xFF7F, size 40823 */
+  FRAM (rx)        : ORIGIN = 0x6000, LENGTH = 0x9F80 /* END=0xFF7F, size 40832 */
   HIFRAM (rxw)     : ORIGIN = 0x00010000, LENGTH = 0x00033FF7 /* Boundaries changed to fix CPU47 */
   JTAGSIGNATURE    : ORIGIN = 0xFF80, LENGTH = 0x0004
   BSLSIGNATURE     : ORIGIN = 0xFF84, LENGTH = 0x0004
