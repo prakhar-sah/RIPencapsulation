@@ -1,1 +1,1 @@
-This folder contains the dumps for msp430fr5969.
+This directory contains the dumps for msp430fr5969.
