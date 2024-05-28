@@ -14,6 +14,7 @@ benchmark = "aes"
 
 #reg_dump_size and reg_dump_sleep_time might differ for other opt levels,
 #the current values are set for -O0 optimization level
+#Change ~/RIPencapsulation with the path to where your ported_stuff directory is located
 if(benchmark == "aes"):
     BINARY_NAME = "~/RIPencapsulation/ported_stuff/msp430fr5969/bin/aes-test.out"
     reg_dump_size = 200
@@ -31,6 +32,7 @@ elif(benchmark == "sha-gladman"):
     reg_dump_size = 5000
     reg_dump_sleep_time = 60
 
+#Change ~/RIPencapsulation with the path to where your ported_stuff directory is located
 os.system('dss.sh ~/RIPencapsulation/ported_stuff/eval/javascript/remove_ipe.js')
 
 proc = mspdebugOpen()

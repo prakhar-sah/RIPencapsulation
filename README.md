@@ -19,17 +19,18 @@ research on the topic.
 * git client
 * make
 * msp430-gcc version >= 9.3.1
-* mspdebug
-* CCStudio
+* mspdebug version >= 0.25
+* CCStudio version >= 12.7.0
+* python3 (we use 3.10.12)
 
 mspdebug has the following dependencies:
-* libusb-dev
-* libreadline-dev
+* libusb-dev version 2:0.1.12-32build3
+* libreadline-dev version 8.1.2-1
 * gcc
 * make
 * libmsp430.so
 
-All of which except libmsp430.so can be installed on Ubuntu systems using `sudo apt install gcc make 
+All of which except libmsp430.so can be installed on Ubuntu systems (we tested everything on Ubuntu 22.04.3 LTS) using `sudo apt install python3 gcc make 
 libusb-dev libreadline-dev`. libmsp430.so is the driver library mspdebug requires to interface with MSP430 devices
 -- it is available as part of msp430-gcc, but needs to be made available to mspdebug using the following commands.
 ```
@@ -39,12 +40,15 @@ source ~/.bashrc
 ```
 mspdebug should not be installed from apt as the version there is outdated; use `git clone https://github.com/dlbeer/mspdebug`
 to get the most recent version and follow the instructions in the README therein to install. Install msp430-gcc from 
-https://www.ti.com/tool/MSP430-GCC-OPENSOURCE. Install CCStudio from https://www.ti.com/tool/CCSTUDIO.
+https://www.ti.com/tool/MSP430-GCC-OPENSOURCE. Install CCStudio from https://www.ti.com/tool/CCSTUDIO. Additionally the `dss.sh` 
+script must be added to the path by using `nano ~/.bashrc` in the home directory. Then add this line to the end of the file --
+`PATH=$PATH:/path/to/your/ccs/installation/dir/ti/ccs1270/ccs/ccs_base/scripting/bin`; save the file and then run `source ~/.bashrc`. 
 
 ## Hardware pre-requisites
 
 To reproduce the end-to-end attack, you need the MSP430FR5994 launchpad. If interested, you can also verify the proof-of-concept
-version of the attack on the MSP432P401R launchpad (discontinued).
+version of the attack on the MSP432P401R launchpad (discontinued). The end-to-end attack is also ported to the MSP430FR5969 and can
+be found in the ported_stuff directory.
 
 ## Experiment workflow
 
