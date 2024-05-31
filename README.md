@@ -1,4 +1,4 @@
-# RIPencapsulation USENIX WOOT 24 Artifact Evaluation
+# RIPencapsulation: Defeating IP Encapsulation on TI MSP Devices
 
 RIPencapsulation is an interrupt-based side channel attack which exploits the vulnerabilities present 
 in the Trusted Execution Environment provided on Texas Instruments MSP microcontrollers, IP Encapsulation
